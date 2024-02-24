@@ -3,11 +3,11 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-st.write("# Курс рубля и президентские выборы")
+st.write("# Курс рубля от событий")
 
-df_us = pd.read_excel("./ruble_analysis/data/us.xlsx")
-df_ch = pd.read_excel("./ruble_analysis/data/ch.xlsx")
-df_euro = pd.read_excel("./ruble_analysis/data/euro.xlsx")
+currency = st.selectbox("Валюта", ["us", "ch", "euro"])
+
+df = pd.read_excel(f"./ruble_analysis/data/{currency}.xlsx")
 
 # Выбранные даты
 selected_dates = [
@@ -31,16 +31,10 @@ for i, date in enumerate(selected_dates):
     end_date = date + timedelta(days=interval_days)
 
     # Фильтрация данных по дате
-    filtered_df_us = df_us[(df_us["data"] >= start_date) & (df_us["data"] <= end_date)]
-    filtered_df_ch = df_ch[(df_ch["data"] >= start_date) & (df_ch["data"] <= end_date)]
-    filtered_df_euro = df_euro[
-        (df_euro["data"] >= start_date) & (df_euro["data"] <= end_date)
-    ]
+    filtered_df = df[(df["data"] >= start_date) & (df["data"] <= end_date)]
 
     # Построение графиков для каждой даты на соответствующем подграфике
-    axs[i].plot(filtered_df_us["data"], filtered_df_us["curs"], label="Курс US")
-    axs[i].plot(filtered_df_ch["data"], filtered_df_ch["curs"], label="Курс CH")
-    axs[i].plot(filtered_df_euro["data"], filtered_df_euro["curs"], label="Курс EURO")
+    axs[i].plot(filtered_df["data"], filtered_df["curs"], label=f"Курс {currency}")
     axs[i].axvline(x=date, color="r", linestyle="--", label=date.strftime("%d.%m.%Y"))
 
     axs[i].set_xlabel("Дата")

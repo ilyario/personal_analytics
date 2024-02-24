@@ -1,0 +1,10 @@
+[[pages]]
+path = "ruble_analysis/main.py"
+name = "Курс рубля и президентские выборы"
+is_section = true
+icon = "💵"
+
+[[pages]]
+path = "test/main.py"
+name = "Test"
+icon = "!"
